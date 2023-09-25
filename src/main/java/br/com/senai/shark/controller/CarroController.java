@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.senai.shark.dto.CarroDto;
@@ -28,6 +29,27 @@ public class CarroController {
 	
 	@Autowired
 	private CarroService carroService;
+	
+	@GetMapping("/marca")
+	public ResponseEntity<List<CarroDto>> listarPorMarca(@RequestParam String marca) {
+		List<Carro> carros = carroService.listarPorMarca(marca);
+		List<CarroDto> carrosDto = carros.stream().map(CarroDto::new).toList();
+		return ResponseEntity.ok(carrosDto);
+	}
+	
+	@GetMapping("/modeloano")
+	public ResponseEntity<List<CarroDto>> listarPorModeloEAno(@RequestParam String modelo, @RequestParam Integer ano) {
+		List<Carro> carros = carroService.listarPorModeloEAno(modelo, ano);
+		List<CarroDto> carrosDto = carros.stream().map(CarroDto::new).toList();
+		return ResponseEntity.ok(carrosDto);
+	}
+	
+	@GetMapping("/anomenor")
+	public ResponseEntity<List<CarroDto>> listarPorAnoMenor(@RequestParam Integer ano) {
+		List<Carro> carros = carroService.listarPorAnoMenor(ano);
+		List<CarroDto> carrosDto = carros.stream().map(CarroDto::new).toList();
+		return ResponseEntity.ok(carrosDto);
+	}
 	
 	@PostMapping
 	public ResponseEntity<CarroDto> cadastraCarro(@RequestBody CarroDto carroDto) {
@@ -49,6 +71,12 @@ public class CarroController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> excluirCarro(@PathVariable Integer id) {
 		carroService.excluirCarro(id);
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+	
+	@DeleteMapping("/marca/{marca}")
+	public ResponseEntity<Void> excluirPorMarca(@PathVariable String marca) {
+		carroService.excluirPorMarca(marca);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	

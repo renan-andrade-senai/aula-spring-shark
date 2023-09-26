@@ -3,6 +3,9 @@ package br.com.senai.shark.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.senai.shark.dto.ContatoDto;
@@ -26,6 +29,10 @@ public class ContatoService {
 	
 	public void excluirContato(Integer id) {
 		contatoRepository.deleteById(id);
+	}
+	
+	public List<Contato> listarPorNomeTipo(String nome, String tipo, Pageable pageable) {
+		return contatoRepository.findByNomeAndTipo(nome, tipo, pageable);
 	}
 
 }

@@ -3,6 +3,7 @@ package br.com.senai.shark.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.senai.shark.dto.JogoDto;
@@ -28,5 +29,8 @@ public class JogoService {
 		jogoRepository.deleteById(id);
 	}
 	
+	public List<Jogo> listarJogosPub(String nomePublisher, Pageable pageable) {
+		return jogoRepository.findByNomePublisher(nomePublisher, pageable);
+	}
 
 }

@@ -1,8 +1,10 @@
 package br.com.senai.shark.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.senai.shark.dto.ProdutoDto;
@@ -26,6 +28,10 @@ public class ProdutoService {
 	
 	public void excluirProduto(Integer id) {
 		produtoRepository.deleteById(id);
+	}
+	
+	public List<Produto> listarProdutoPorTituloPrazo(String titulo, LocalDate prazoEntrega, Pageable pageable) {
+		return produtoRepository.findByTituloAndPrazoEntrega(titulo, prazoEntrega, pageable);
 	}
 
 }

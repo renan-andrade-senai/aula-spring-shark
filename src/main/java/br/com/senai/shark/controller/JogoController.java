@@ -3,6 +3,8 @@ package br.com.senai.shark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.senai.shark.dto.JogoDto;
@@ -34,6 +37,14 @@ public class JogoController {
 	@GetMapping
 	public ResponseEntity<List<JogoDto>> listarJogos() {
 		List<Jogo> jogos = jogoService.listarJogos();
+		List<JogoDto> jogosDto = jogos.stream().map(JogoDto::new).toList();
+		return ResponseEntity.ok(jogosDto);
+	}
+	
+	@GetMapping("/porpublisher")
+	public ResponseEntity<List<JogoDto>> listarJogosPublisher(@RequestParam String pub, 
+			@PageableDefault Pageable pageable) {
+		List<Jogo> jogos = jogoService.listarJogosPub(pub, pageable);
 		List<JogoDto> jogosDto = jogos.stream().map(JogoDto::new).toList();
 		return ResponseEntity.ok(jogosDto);
 	}

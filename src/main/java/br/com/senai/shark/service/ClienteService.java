@@ -1,8 +1,10 @@
 package br.com.senai.shark.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.senai.shark.dto.ClienteDto;
@@ -26,6 +28,15 @@ public class ClienteService {
 	
 	public List<Cliente> listarClientes() {
 		return clienteRepository.findAll();
+	}
+	
+	public List<Cliente> listarClientePorEndereco(String endereco, Pageable pageable) {
+		endereco = "%" + endereco + "%";
+		return clienteRepository.findByEnderecoLike(endereco, pageable);
+	}
+	
+	public List<Cliente> listarClientePorDtNascimento(LocalDate dtNascimento, Pageable pageable) {
+		return clienteRepository.findByDtNascimento(dtNascimento, pageable);
 	}
 
 }

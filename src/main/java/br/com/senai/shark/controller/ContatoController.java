@@ -3,6 +3,8 @@ package br.com.senai.shark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.senai.shark.dto.ContatoDto;
@@ -34,6 +37,13 @@ public class ContatoController {
 	@GetMapping
 	public ResponseEntity<List<ContatoDto>> listarContatos() {
 		List<Contato> contatos = contatoService.listarContatos();
+		List<ContatoDto> contatosDto = contatos.stream().map(ContatoDto::new).toList();
+		return ResponseEntity.ok(contatosDto);
+	}
+	
+	@GetMapping("/pornometipo")
+	public ResponseEntity<List<ContatoDto>> listarContatosNomeTipo(@RequestParam String nome, @RequestParam String tipo, @PageableDefault Pageable pageable) {
+		List<Contato> contatos = contatoService.listarPorNomeTipo(nome, tipo, pageable);
 		List<ContatoDto> contatosDto = contatos.stream().map(ContatoDto::new).toList();
 		return ResponseEntity.ok(contatosDto);
 	}

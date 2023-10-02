@@ -2,12 +2,15 @@ package br.com.senai.shark.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.senai.shark.model.Departamento;
 
 public class DepartamentoDto {
 
 	private Integer id;
 	private String nome;
+	@JsonManagedReference
 	private List<MedicoDto> medicos;
 
 	public DepartamentoDto() {

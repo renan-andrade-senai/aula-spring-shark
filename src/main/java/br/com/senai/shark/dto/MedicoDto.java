@@ -1,5 +1,7 @@
 package br.com.senai.shark.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.senai.shark.model.Medico;
 
 public class MedicoDto {
@@ -8,6 +10,8 @@ public class MedicoDto {
 	private String nome;
 	private String crm;
 	private String cpf;
+	@JsonBackReference
+	private DepartamentoDto departamento;
 
 	public MedicoDto() {
 		super();
@@ -20,12 +24,13 @@ public class MedicoDto {
 		this.cpf = medico.getCpf();
 	}
 
-	public MedicoDto(Integer id, String nome, String crm, String cpf) {
+	public MedicoDto(Integer id, String nome, String crm, String cpf, DepartamentoDto departamento) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.crm = crm;
 		this.cpf = cpf;
+		this.departamento = departamento;
 	}
 
 	public Integer getId() {
@@ -58,6 +63,14 @@ public class MedicoDto {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public DepartamentoDto getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(DepartamentoDto departamento) {
+		this.departamento = departamento;
 	}
 
 }

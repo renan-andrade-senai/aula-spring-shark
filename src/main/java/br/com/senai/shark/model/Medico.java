@@ -1,10 +1,13 @@
 package br.com.senai.shark.model;
 
 import br.com.senai.shark.dto.MedicoDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Medico {
@@ -15,6 +18,9 @@ public class Medico {
 	private String nome;
 	private String crm;
 	private String cpf;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "departamento_id")
+	private Departamento departamento;
 
 	public Medico() {
 		super();
@@ -25,6 +31,9 @@ public class Medico {
 		this.nome = medico.getNome();
 		this.crm = medico.getCrm();
 		this.cpf = medico.getCpf();
+		if (medico.getDepartamento() != null) {
+			this.departamento = new Departamento(medico.getDepartamento());
+		}
 	}
 
 	public Medico(Integer id, String nome, String crm, String cpf) {
@@ -65,6 +74,14 @@ public class Medico {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
 	}
 
 }

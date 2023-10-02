@@ -18,8 +18,7 @@ public class Departamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	@JoinColumn(name = "departamento_id")
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento")
 	private List<Medico> medicos;
 
 	public Departamento() {

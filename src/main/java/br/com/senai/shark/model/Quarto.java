@@ -1,10 +1,12 @@
 package br.com.senai.shark.model;
 
 import br.com.senai.shark.dto.QuartoDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Quarto {
@@ -14,6 +16,8 @@ public class Quarto {
 	private Integer id;
 	private Integer numero;
 	private Integer andar;
+	@OneToOne(mappedBy = "quarto", cascade = CascadeType.ALL)
+	private Paciente paciente;
 
 	public Quarto() {
 		super();
@@ -23,6 +27,10 @@ public class Quarto {
 		this.id = quarto.getId();
 		this.numero = quarto.getNumero();
 		this.andar = quarto.getAndar();
+		this.paciente = new Paciente(quarto.getPaciente().getId(), 
+				quarto.getPaciente().getNome(),
+				quarto.getPaciente().getCpf(),
+				this);
 	}
 
 	public Quarto(Integer id, Integer numero, Integer andar) {
@@ -54,6 +62,14 @@ public class Quarto {
 
 	public void setAndar(Integer andar) {
 		this.andar = andar;
+	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 }

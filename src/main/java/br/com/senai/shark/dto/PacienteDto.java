@@ -1,5 +1,7 @@
 package br.com.senai.shark.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.senai.shark.model.Paciente;
 
 public class PacienteDto {
@@ -7,6 +9,7 @@ public class PacienteDto {
 	private Integer id;
 	private String nome;
 	private String cpf;
+	@JsonManagedReference
 	private QuartoDto quarto;
 
 	public PacienteDto() {

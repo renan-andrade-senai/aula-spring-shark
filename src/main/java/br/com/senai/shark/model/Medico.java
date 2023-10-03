@@ -31,9 +31,9 @@ public class Medico {
 		this.nome = medico.getNome();
 		this.crm = medico.getCrm();
 		this.cpf = medico.getCpf();
-		if (medico.getDepartamento() != null) {
-			this.departamento = new Departamento(medico.getDepartamento());
-		}
+//		if (medico.getDepartamento() != null) {
+//			this.departamento = new Departamento(medico.getDepartamento());
+//		}
 	}
 
 	public Medico(Integer id, String nome, String crm, String cpf) {

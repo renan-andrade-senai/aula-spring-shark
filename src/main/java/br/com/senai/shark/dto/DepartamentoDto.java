@@ -21,6 +21,7 @@ public class DepartamentoDto {
 		this.id = departamento.getId();
 		this.nome = departamento.getNome();
 		this.medicos = departamento.getMedicos().stream().map(MedicoDto::new).toList();
+		medicos.forEach(m -> m.setDepartamento(this));
 	}
 
 	public DepartamentoDto(Integer id, String nome, List<MedicoDto> medicos) {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.senai.shark.dto.MedicoDto;
+import br.com.senai.shark.model.Departamento;
 import br.com.senai.shark.model.Medico;
 import br.com.senai.shark.repository.MedicoRepository;
 
@@ -17,6 +18,9 @@ public class MedicoService {
 	
 	public Medico salvarMedico(MedicoDto medicoDto) {
 		Medico medico = new Medico(medicoDto);
+		if (medicoDto.getDepartamento() != null) {
+			medico.setDepartamento(new Departamento(medicoDto.getDepartamento()));
+		}
 		return medicoRepository.save(medico);
 	}
 	

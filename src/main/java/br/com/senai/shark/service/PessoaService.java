@@ -27,8 +27,8 @@ public class PessoaService {
 	
 	// Mesma coisa que:
 	// DELETE FROM Pessoa WHERE id = ?
-	public void removerPessoa(Pessoa pessoa) {
-		pessoaRepository.deleteById(pessoa.getId());
+	public void removerPessoa(Integer id) {
+		pessoaRepository.deleteById(id);
 	}
 
 }

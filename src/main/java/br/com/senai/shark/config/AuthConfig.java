@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -58,6 +59,7 @@ public class AuthConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		AutenticacaoJwtFilter filter = new AutenticacaoJwtFilter(jwtService, usuarioRepository);
 		 return http.csrf(csrf -> csrf.disable())
+				 .cors(cors -> Customizer.withDefaults())
 				 .authorizeHttpRequests(req -> req.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/**")).permitAll())
 				 .authorizeHttpRequests(req -> req.anyRequest().authenticated())
 				 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)

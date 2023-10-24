@@ -5,8 +5,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.senai.shark.dto.CarroDto;
 import br.com.senai.shark.model.Carro;
 import br.com.senai.shark.service.CarroService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 @RestController
 @RequestMapping("/carro")
@@ -29,11 +34,21 @@ public class CarroController {
 	
 	@Autowired
 	private CarroService carroService;
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@GetMapping("/marca")
-	public ResponseEntity<List<CarroDto>> listarPorMarca(@RequestParam String marca) {
+	public ResponseEntity<List<CarroDto>> listarPorMarca(@RequestParam String marca) throws MessagingException {
 		List<Carro> carros = carroService.listarPorMarca(marca);
 		List<CarroDto> carrosDto = carros.stream().map(CarroDto::new).toList();
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+		helper.addAttachment("nome", new ClassPathResource("caminho do arquivo dentro do projeto (pasta resources/static)"));
+		helper.setFrom("emailorigem");
+		helper.setTo("emailDestino");
+		helper.setSubject("teste email");
+		helper.setText("sua dieta chegou");
+		mailSender.send(message);
 		return ResponseEntity.ok(carrosDto);
 	}
 	
